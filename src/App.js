@@ -7,6 +7,7 @@ import FeedbackStats from "./components /FeedbackStats";
 import FeedbackForm from "./components /FeedbackForm";
 import { v4 as uuidv4 } from "uuid";
 import AboutPage from "./pages/AboutPage";
+import { FeedbackProvider } from "./context/FeedbackContext";
 
 function App() {
   const [feedback, setFeedback] = useState(FeedbackData);
@@ -21,27 +22,26 @@ function App() {
     }
   };
   return (
-    <Router>
-      <Header />
-      <div className="container">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <FeedbackForm handleAdd={addFeedback} />
-                <FeedbackStats feedback={feedback} />
-                <FeedbackList
-                  feedback={feedback}
-                  handleDelete={deleteFeedback}
-                />
-              </>
-            }
-          ></Route>
-          <Route path="/about" element={<AboutPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <FeedbackProvider>
+      <Router>
+        <Header />
+        <div className="container">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <FeedbackForm handleAdd={addFeedback} />
+                  <FeedbackStats />
+                  <FeedbackList handleDelete={deleteFeedback} />
+                </>
+              }
+            ></Route>
+            <Route path="/about" element={<AboutPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </FeedbackProvider>
   );
 }
 
